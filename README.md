@@ -218,4 +218,4 @@ Pour un usage éducatif et de cours.
 
 ---
 
-**Créée avec ❤️ pour votre cours de Gestion Financière**
+**Créée avec ❤️ **
