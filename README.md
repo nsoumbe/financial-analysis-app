@@ -35,7 +35,7 @@ financial-analysis-app/
 
 - **Frontend**: React 18, CSS3 moderne
 - **Backend**: Node.js, Express.js
-- **AI/Analysis**: Python, Claude Anthropic API
+- **AI/Analysis**: Python, Gemini API
 - **Base de données**: Mock in-memory (extensible)
 
 ## 🚀 Installation et Démarrage
@@ -44,7 +44,7 @@ financial-analysis-app/
 
 - Node.js (v14+)
 - Python (v3.8+)
-- Clé API Anthropic (Claude)
+- Clé API Gemini (Google)
 - npm ou yarn
 
 ### 1. Cloner et configurer
@@ -54,7 +54,7 @@ cd financial-analysis-app
 cp .env.example .env
 ```
 
-Éditez `.env` et ajoutez votre clé API Anthropic:
+Éditez `.env` et ajoutez votre clé API :
 ```
 ANTHROPIC_API_KEY=sk-your-api-key
 ```
