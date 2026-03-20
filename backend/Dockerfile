@@ -1,27 +1,36 @@
-# Backend Dockerfile
-FROM node:20-slim
+FROM node:20-bookworm-slim
 
-# Install Python for the analyzer service
-RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/apt/lists/*
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="/opt/venv/bin:${PATH}"
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends python3 python3-venv ca-certificates \
+  && python3 -m venv /opt/venv \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy backend package files and install dependencies
 COPY backend/package*.json ./backend/
 WORKDIR /app/backend
-RUN npm install --production
+RUN npm ci --omit=dev
 
-# Copy backend and python-service code
+WORKDIR /app/python-service
+COPY python-service/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir --break-system-packages -r requirements.txt
+
 WORKDIR /app
 COPY backend ./backend
 COPY python-service ./python-service
 
-# Install python requirements
-WORKDIR /app/python-service
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN useradd --create-home --shell /usr/sbin/nologin appuser \
+  && chown -R appuser:appuser /app
 
 WORKDIR /app/backend
+ENV PYTHON_PATH=python
+
+USER appuser
 EXPOSE 5000
 
-ENV PYTHON_PATH=python3
 CMD ["node", "server.js"]

@@ -34,8 +34,7 @@ financial-analysis-app/
 |- backend/           # API Node.js / Express
 |- frontend/          # application React
 |- python-service/    # orchestration IA et generation du rapport
-|- Dockerfile         # image Docker unique
-|- docker-compose.yml # lancement simplifie
+|- docker-compose.yml # orchestration Docker
 ```
 
 ## Stack Technique
@@ -113,46 +112,86 @@ pip install -r requirements.txt
 
 ## Lancement Docker
 
-Le projet peut etre lance avec une image Docker unique.
+Le projet est maintenant conteneurise avec une separation frontend / backend afin de mieux respecter une logique d'isolation des composants.
 
-### Build
+### Architecture Docker
+
+- `frontend` :
+  - image dediee
+  - build React multi-etapes
+  - service statique via Nginx non-root
+  - seul service expose publiquement
+
+- `backend` :
+  - image dediee
+  - API Node.js + service Python
+  - non expose directement sur l'hote
+  - accessible seulement via le reseau Docker interne
+
+### Mesures de durcissement mises en place
+
+- separation frontend / backend
+- backend non publie directement sur l'hote
+- execution avec des utilisateurs non-root dans les images
+- `cap_drop: ALL`
+- `no-new-privileges:true`
+- `read_only: true`
+- `tmpfs` pour les besoins temporaires
+- reverse proxy Nginx pour le frontend
+- healthcheck backend dans `docker-compose`
+
+### Build des images
 
 ```bash
-docker build -t financial-analysis-app:latest .
+docker compose build
 ```
 
-### Run
+Images produites :
+
+```text
+financial-analysis-frontend:latest
+financial-analysis-backend:latest
+```
+
+### Lancement
 
 ```bash
-docker run --rm -p 5000:5000 --env-file .env financial-analysis-app:latest
+docker compose up
 ```
 
 Puis ouvrez :
 
 ```text
-http://localhost:5000
+http://localhost:3000
 ```
 
-### Avec Docker Compose
+### Arret
 
 ```bash
-docker compose up --build
+docker compose down
 ```
 
-## Partage De L'Image Docker
+## Partage Des Images Docker
 
-Pour envoyer l'image a quelqu'un :
+Comme l'architecture est separee, il faut exporter deux images.
 
 ```bash
-docker save -o financial-analysis-app.tar financial-analysis-app:latest
+docker save -o financial-analysis-frontend.tar financial-analysis-frontend:latest
+docker save -o financial-analysis-backend.tar financial-analysis-backend:latest
 ```
 
 Sur le PC de destination :
 
 ```bash
-docker load -i financial-analysis-app.tar
-docker run --rm -p 5000:5000 --env-file .env financial-analysis-app:latest
+docker load -i financial-analysis-frontend.tar
+docker load -i financial-analysis-backend.tar
+docker compose up
 ```
+
+Il faudra aussi fournir :
+
+- `docker-compose.yml`
+- un fichier `.env`
 
 ## Sources De Donnees
 
@@ -234,6 +273,9 @@ Ce projet montre des competences en :
 - traitement et normalisation de donnees externes
 - generation de rapports PDF
 - conteneurisation Docker
+- isolation applicative via conteneurs separes
+- reduction de la surface d'attaque des services exposes
+- execution non-root et durcissement de base des conteneurs
 - gestion des variables d'environnement
 - preparation d'une application portable pour demonstration et test
 
@@ -241,7 +283,7 @@ Ce projet montre des competences en :
 
 - Gemini est le fournisseur IA principal utilise dans le projet
 - Anthropic reste supporte au niveau du code, mais n'est pas le mode par defaut
-- une image Docker locale unique a ete construite
+- l'application est conteneurisee avec separation frontend / backend
 
 ## Licence
 

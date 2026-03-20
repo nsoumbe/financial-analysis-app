@@ -1,14 +1,14 @@
-# Frontend Dockerfile
-FROM node:20-slim
-WORKDIR /app
+FROM node:20-bookworm-slim AS builder
 
-# Install dependencies and build
+WORKDIR /app
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci --legacy-peer-deps
 COPY frontend ./
 RUN npm run build
 
-# Serve static build
-RUN npm install -g serve
-EXPOSE 3000
-CMD ["serve", "-s", "build", "-l", "3000"]
+FROM nginxinc/nginx-unprivileged:1.29-alpine
+
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/build /usr/share/nginx/html
+
+EXPOSE 8080
