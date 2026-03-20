@@ -1,221 +1,248 @@
-# 💼 Application d'Analyse Financière - Fusion & Acquisition
+# Application d'Analyse Financiere - Fusion & Acquisition
 
-Une application web locale pour analyser les fusions et acquisitions entre deux entreprises using Claude AI.
+Application web d'analyse financiere assistee par IA permettant de comparer deux entreprises cotees et de generer automatiquement un rapport de fusion-acquisition.
 
-## 📋 Fonctionnalités
+Le projet utilise actuellement Gemini par defaut, avec un support optionnel d'Anthropic si besoin.
 
-- **Recherche d'entreprises** avec autocomplete basée sur les noms et tickers
-- **Analyse financière comparative** utilisant Claude AI
-- **Rapport HTML interactif** avec visualisation des données
-- **Téléchargement de rapport** en format HTML
+## Description Du Projet
 
-## 🏗️ Architecture
+Ce projet a pour objectif de montrer comment une application metier peut etre enrichie par l'intelligence artificielle.
 
-```
+L'application permet a un utilisateur de :
+
+- rechercher des entreprises cotees
+- comparer leurs informations financieres lorsqu'elles sont disponibles
+- generer un rapport structure de fusion-acquisition
+- exporter ce rapport en PDF
+
+L'IA est utilisee comme une couche d'interpretation. Elle ne remplace pas la donnee brute, mais aide a transformer des chiffres et des informations de marche en une synthese lisible, argumentee et exploitable.
+
+## Fonctionnalites
+
+- recherche d'entreprises cotees
+- support des societes americaines via SEC
+- support des societes Euronext Paris et autres marches Euronext pour la recherche
+- analyse financiere comparee assistee par IA
+- rapport detaille genere automatiquement
+- telechargement du rapport en PDF
+- execution locale ou via Docker
+
+## Architecture
+
+```text
 financial-analysis-app/
-├── backend/              # Node.js/Express API
-│   ├── server.js        # Serveur principal
-│   └── package.json     # Dépendances Node
-│
-├── frontend/            # React application
-│   ├── src/
-│   │   ├── components/  # Composants React
-│   │   ├── pages/       # Pages principales
-│   │   └── App.js       # Composant principal
-│   └── public/          # Assets statiques
-│
-├── python-service/      # Service d'analyse Claude
-│   ├── analyzer.py      # Script d'analyse IA
-│   └── requirements.txt # Dépendances Python
-│
-└── .env.example        # Configuration d'exemple
+|- backend/           # API Node.js / Express
+|- frontend/          # application React
+|- python-service/    # orchestration IA et generation du rapport
+|- Dockerfile         # image Docker unique
+|- docker-compose.yml # lancement simplifie
 ```
 
-## 📦 Stack Technique
+## Stack Technique
 
-- **Frontend**: React 18, CSS3 moderne
-- **Backend**: Node.js, Express.js
-- **AI/Analysis**: Python, Claude Anthropic API
-- **Base de données**: Mock in-memory (extensible)
+- Frontend : React 18
+- Backend : Node.js, Express
+- Service IA : Python
+- IA : Google Gemini par defaut, Anthropic en option
+- Donnees boursieres :
+  - SEC pour les societes americaines
+  - Euronext pour la recherche des societes cotees europeennes
+- Export : PDF
+- Conteneurisation : Docker
 
-## 🚀 Installation et Démarrage
+## Pourquoi l'IA est utile ici
 
-### Prérequis
+L'IA ne sert pas seulement a afficher du texte. Elle permet de transformer des donnees financieres en une synthese exploitable :
 
-- Node.js (v14+)
-- Python (v3.8+)
-- Clé API Anthropic (Claude)
-- npm ou yarn
+- mise en contexte des chiffres
+- identification des forces et faiblesses
+- mise en avant des risques
+- formulation d'une recommandation lisible
 
-### 1. Cloner et configurer
+L'objectif est donc de passer d'une simple consultation de donnees boursieres a une aide a la decision.
 
-```bash
-cd financial-analysis-app
-cp .env.example .env
+## Description Courte Pour GitHub
+
+Application web d'analyse de fusion-acquisition assistee par IA, combinant React, Node.js, Python, sources de donnees boursieres et export PDF.  
+Le projet illustre l'integration d'une API d'IA dans un cas d'usage metier concret, avec conteneurisation Docker pour faciliter le partage et l'execution.
+
+## Configuration
+
+Copiez `.env.example` en `.env`, puis renseignez votre cle API.
+
+Exemple avec Gemini :
+
+```env
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
 ```
 
-Éditez `.env` et ajoutez votre clé API Anthropic:
-```
-ANTHROPIC_API_KEY=sk-your-api-key
+Option Anthropic :
+
+```env
+AI_PROVIDER=anthropic
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+ANTHROPIC_MODEL=claude-3-5-sonnet-20241022
 ```
 
-### 2. Installer les dépendances
+## Lancement Local
 
-**Backend:**
+### Backend
+
 ```bash
 cd backend
 npm install
+npm start
 ```
 
-**Frontend:**
+### Frontend
+
 ```bash
 cd frontend
-npm install
+npm install --legacy-peer-deps
+npm start
 ```
 
-**Python Service:**
+### Python
+
 ```bash
 cd python-service
 pip install -r requirements.txt
 ```
 
-### 3. Démarrer l'application
+## Lancement Docker
 
-**Terminer 1 - Backend:**
-```bash
-cd backend
-npm start
-```
-Serveur disponible sur `http://localhost:5000`
+Le projet peut etre lance avec une image Docker unique.
 
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm start
-```
-Application ouverte sur `http://localhost:3000`
-
-## 📊 Utilisation
-
-1. **Accueil**: Cliquez sur "Commencer l'analyse"
-2. **Sélection**: Cherchez et sélectionnez deux entreprises
-   - Acquéreuse (celle qui achète)
-   - Cible (celle à acquérir)
-3. **Génération**: Cliquez sur "Générer le Rapport d'Analyse"
-4. **Résultats**: Consultez le rapport interactif avec:
-   - Comparaison financière
-   - Points forts et risques
-   - Recommandations
-5. **Export**: Téléchargez le rapport en HTML
-
-## 🏢 Entreprises Disponibles
-
-L'application inclut les données de ces entreprises (extensible):
-
-- **Apple (AAPL)** - Technologie
-- **Microsoft (MSFT)** - Logiciels
-- **Google (GOOGL)** - Internet
-- **Tesla (TSLA)** - Automobile/Énergie
-- **Amazon (AMZN)** - E-commerce
-
-Pour ajouter des entreprises, modifiez `companiesDatabase` dans `backend/server.js`.
-
-## 🤖 Intégration Claude AI
-
-Le service Python (`python-service/analyzer.py`):
-1. Reçoit les données financières des deux entreprises
-2. Génère un prompt détaillé
-3. Appelle l'API Claude Anthropic
-4. Retourne un JSON structuré avec l'analyse
-
-## 🎯 Métriques Financières Analysées
-
-- **Marge Bénéficiaire**: Profit Net / Revenue
-- **ROA**: Retour sur Actifs
-- **ROE**: Retour sur Capitaux Propres
-- **Ratio de Dette**: Passifs / Actifs
-- **Rotation d'Actifs**: Revenue / Actifs
-
-## 📝 Structure du Rapport
-
-Chaque rapport contient:
-
-- **Résumé Exécutif**: Vue d'ensemble
-- **Comparaison**: Données financières côte à côte
-- **Analyse**: Forces, faiblesses, risques
-- **Projection**: ROI et synergies
-- **Recommandation**: Avis d'acquisition
-
-## 🔐 Notes de Sécurité
-
-- Ne commitez pas votre `.env` avec la clé API réelle
-- L'application est conçue pour un usage local/éducatif
-- Pour la production, implémentez:
-  - Authentification utilisateur
-  - Rate limiting
-  - Validation d'entrée robuste
-  - Base de données réelle
-
-## 📚 Pour Votre Cours
-
-Cette application démontre:
-- L'analyse financière comparée
-- Les métriques clés d'évaluation
-- Les synergies de fusion
-- L'intégration IA dans les processus métier
-
-## 🛠️ Troubleshooting
-
-**Important: Installer les dépendances**
-```bash
-# Backend
-cd backend && npm install
-
-# Frontend
-cd frontend && npm install
-
-# Python
-cd python-service && pip install -r requirements.txt
-```
-
-**Erreur de port (5000 occupé)**
-```bash
-# Modifier dans backend/.env
-PORT=5001
-```
-
-**Erreur Python/ANTHROPIC_API_KEY**
-- Vérifier que `.env` existe et contient votre clé
-- Redémarrer le backend après modification de `.env`
-
-## � Exécution avec Docker
-
-1. Créez un fichier `.env` à la racine avec votre clé API Claude :
+### Build
 
 ```bash
-ANTHROPIC_API_KEY=sk-your-api-key
+docker build -t financial-analysis-app:latest .
 ```
 
-2. Construisez et démarrez avec Docker Compose :
+### Run
+
+```bash
+docker run --rm -p 5000:5000 --env-file .env financial-analysis-app:latest
+```
+
+Puis ouvrez :
+
+```text
+http://localhost:5000
+```
+
+### Avec Docker Compose
 
 ```bash
 docker compose up --build
 ```
 
-3. Ouvrez l’app :
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:5000/api/health`
+## Partage De L'Image Docker
 
-4. Arrêtez :
+Pour envoyer l'image a quelqu'un :
 
 ```bash
-docker compose down
+docker save -o financial-analysis-app.tar financial-analysis-app:latest
 ```
 
-## �📄 Licence
+Sur le PC de destination :
 
-Pour un usage éducatif et de cours.
+```bash
+docker load -i financial-analysis-app.tar
+docker run --rm -p 5000:5000 --env-file .env financial-analysis-app:latest
+```
 
----
+## Sources De Donnees
 
-**Créée avec ❤️ pour votre cours de Gestion Financière**
+- SEC : donnees et societes cotees americaines
+- Euronext : recherche de societes cotees europeennes
+
+Note importante :
+- les societes US ont generalement plus de fondamentaux disponibles via SEC
+- les societes Euronext peuvent avoir des donnees plus limitees dans l'etat actuel du projet
+
+## Comment Les Donnees Entreprises Sont Recuperees
+
+Le projet utilise deux circuits de donnees differents selon le marche boursier.
+
+### 1. Entreprises Americaines
+
+Pour les entreprises americaines, les donnees proviennent de la SEC.
+
+Sources utilisees :
+
+- annuaire des societes cotees : `company_tickers_exchange.json`
+- donnees financieres detaillees : API `companyfacts`
+- metadonnees societes : API `submissions`
+
+Concretement :
+
+- le backend recherche l'entreprise dans l'annuaire SEC
+- recupere son identifiant `CIK`
+- appelle les endpoints SEC pour extraire des donnees comme :
+  - chiffre d'affaires
+  - benefice net
+  - actifs
+  - passifs
+  - depenses de R&D
+  - parfois le nombre d'employes
+- ces donnees sont ensuite normalisees avant d'etre envoyees au service IA
+
+### 2. Entreprises Francaises Et Euronext
+
+Pour les entreprises francaises et plus largement les entreprises cotees sur Euronext, le projet utilise le repertoire officiel Euronext.
+
+Source utilisee :
+
+- export actions Euronext : `https://live.euronext.com/pd_es/data/stocks/download?mics=dm_all_stock`
+
+Concretement :
+
+- le backend telecharge le CSV officiel Euronext
+- parse les lignes cote serveur
+- indexe les entreprises notamment par `ISIN`
+- utilise ces donnees pour :
+  - la recherche d'entreprises
+  - la place de cotation
+  - certaines donnees de marche comme prix, volume ou turnover
+
+### Limite Actuelle
+
+- pour les entreprises US, on dispose de fondamentaux financiers plus riches via SEC
+- pour les entreprises Euronext, la recherche est bonne, mais les donnees financieres detaillees peuvent etre plus limitees selon la source disponible
+
+En pratique :
+
+- SEC sert surtout aux fondamentaux financiers americains
+- Euronext sert a l'univers des entreprises cotees europeennes et a la recherche
+- Gemini genere ensuite l'analyse a partir des donnees collectees par le backend
+
+## Securite
+
+- `.env` est ignore par Git
+- ne commitez jamais de cle API reelle
+- utilisez `.env.example` comme modele
+
+## Competences Mises En Evidence
+
+Ce projet montre des competences en :
+
+- integration d'API IA
+- orchestration frontend / backend / service Python
+- traitement et normalisation de donnees externes
+- generation de rapports PDF
+- conteneurisation Docker
+- gestion des variables d'environnement
+- preparation d'une application portable pour demonstration et test
+
+## Etat Actuel
+
+- Gemini est le fournisseur IA principal utilise dans le projet
+- Anthropic reste supporte au niveau du code, mais n'est pas le mode par defaut
+- une image Docker locale unique a ete construite
+
+## Licence
+
+Projet a vocation pedagogique et demonstrative.
