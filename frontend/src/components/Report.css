@@ -1,0 +1,182 @@
+.report-container {
+  padding-top: 1rem;
+}
+
+.report-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.report-header .btn {
+  flex: 1;
+  max-width: 300px;
+}
+
+.report-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.report-card h1 {
+  color: #667eea;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.report-section {
+  margin-bottom: 2rem;
+  border-left: 4px solid #667eea;
+  padding-left: 1.5rem;
+}
+
+.section-title {
+  color: #764ba2;
+  font-size: 1.3rem;
+  margin: 1.5rem 0;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.section-title:hover {
+  background-color: #f0f0f0;
+}
+
+.section-content {
+  margin-top: 1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+.companies-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.company-comparison {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.company-comparison h3 {
+  color: #667eea;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-comparison h4 {
+  color: #764ba2;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-name {
+  color: #333;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.company-comparison table {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.company-comparison table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.company-comparison table td {
+  padding: 0.6rem;
+}
+
+.company-comparison table td.label {
+  font-weight: 600;
+  color: #555;
+  width: 50%;
+}
+
+.company-comparison table td.value {
+  color: #667eea;
+  font-weight: 600;
+  text-align: right;
+}
+
+.analysis-subsection {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.analysis-subsection h4 {
+  color: #667eea;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.analysis-subsection ul {
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.analysis-subsection li {
+  margin: 0.6rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.analysis-subsection li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.section-content p {
+  margin: 1rem 0;
+  color: #555;
+  line-height: 1.8;
+}
+
+.report-footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e0e0e0;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .companies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-card {
+    padding: 1.5rem;
+  }
+
+  .report-header {
+    flex-direction: column;
+  }
+
+  .report-header .btn {
+    max-width: none;
+  }
+}
